@@ -13,7 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 import java.io.*;
 import java.util.Scanner;
 
@@ -109,20 +109,32 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         setFocusable(true);
 
-            // load images
-            scrollImage = new ImageIcon(getClass().getResource("/ics4u_wukong/scroll.jpg")).getImage();
-            guardImage = new ImageIcon(getClass().getResource("/ics4u_wukong/guard.jpg")).getImage();
-            handImage = new ImageIcon(getClass().getResource("/ics4u_wukong/hand.jpg")).getImage();
-            gateImage = new ImageIcon(getClass().getResource("/ics4u_wukong/gate.jpg")).getImage();
+            // try loading images
+            try {
+                scrollImage = ImageIO.read(new java.io.File("src/ics4u_wukong/scroll.jpg"));
+            } catch (Exception e) {
+                scrollImage = null;
+            }
+            try {
+                guardImage = ImageIO.read(new java.io.File("src/ics4u_wukong/guard.jpg"));
+            } catch (Exception e) {
+                guardImage = null;
+            }
+            try {
+                handImage = ImageIO.read(new java.io.File("src/ics4u_wukong/hand.jpg"));
+            } catch (Exception e) {
+                handImage = null;
+            }
+            try {
+                gateImage = ImageIO.read(new java.io.File("src/ics4u_wukong/gate.jpg"));
+            } catch (Exception e) {
+                gateImage = null;
+            }
 
         
 
         // starting position
         player = new Player(100, GROUND_Y - 60);
-        // attempt to load saved progress
-        if (new java.io.File("src/save.txt").exists()) {
-            loadProgress();
-        }
 
         // keyboard handling (simple)
         /**
@@ -300,6 +312,11 @@ public class GamePanel extends JPanel {
     }
 
     // Save current progress to a file (save.txt)
+    /**
+    * save & load file code snippet used from stackoverflow
+    * @author: stackoverflow
+    * https://stackoverflow.com/questions/72022350/why-is-my-saved-file-not-being-used-in-game-when-i-run-it
+    */
     private void saveProgress() {
         File saveFile = new File("src", "save.txt");
         System.out.println("Saving to: " + saveFile.getAbsolutePath());
@@ -543,13 +560,15 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         // draw tile map
-        for (int r = 0; r < tileMap.length; r++) {
-            for (int c = 0; c < tileMap[r].length; c++) {
-                if (tileMap[r][c] == 1) {
-                    g.setColor(new Color(200, 200, 200));
-                    g.fillRect(c * tileSize, 30 + r * tileSize, tileSize, tileSize);
-                    g.setColor(Color.DARK_GRAY);
-                    g.drawRect(c * tileSize, 30 + r * tileSize, tileSize, tileSize);
+        if (tileMap != null && tileMap.length > 0) {
+            for (int r = 0; r < tileMap.length; r++) {
+                for (int c = 0; c < tileMap[r].length; c++) {
+                    if (tileMap[r][c] == 1) {
+                        g.setColor(new Color(200, 200, 200));
+                        g.fillRect(c * tileSize, 30 + r * tileSize, tileSize, tileSize);
+                        g.setColor(Color.DARK_GRAY);
+                        g.drawRect(c * tileSize, 30 + r * tileSize, tileSize, tileSize);
+                    }
                 }
             }
         }

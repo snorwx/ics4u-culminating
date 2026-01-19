@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 /**
  * Player used for position, drawing and collision
@@ -31,8 +31,12 @@ public class Player {
     public Player(int startX, int startY) {
         posX = startX;
         posY = startY;
-        // load sprite image
-        sprite = new ImageIcon(getClass().getResource("/ics4u_wukong/image.png")).getImage();
+        // try loading sprite from classpath resources; fallback to null on failure
+        try {
+            sprite = ImageIO.read(new java.io.File("src/ics4u_wukong/image.png"));
+        } catch (Exception e) {
+            sprite = null;
+        }
     }
 
     /**
