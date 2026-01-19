@@ -54,7 +54,7 @@ public class Player {
     }
 
     /**
-     * Reset the player's position to the bottom left (top-left in pixels).
+     * Reset the player's position to the bottom left.
      */
     public void reset(int startX, int startY) {
         posX = startX;

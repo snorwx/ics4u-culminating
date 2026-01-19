@@ -161,7 +161,7 @@ public class GamePanel extends JPanel {
                     // Enter starts or advances when overlay is visible
                     if (overlayVisible) {
                         if (chapterCompleteOverlay) {
-                            // advance to next chapter (cycle 1 -> 2 -> 3 -> 1)
+                            // advance to next chapter
                             chapterCompleteOverlay = false;
                             if (chapter == 1) chapter = 2;
                             else if (chapter == 2) chapter = 3;
@@ -173,7 +173,7 @@ public class GamePanel extends JPanel {
                             overlayVisible = false;
                             overlayResumeOnly = false;
                         } else {
-                            // starting/retrying the current chapter: reset layout
+                            // starting/retrying the current chapter
                             startChapter();
                         }
                     }
